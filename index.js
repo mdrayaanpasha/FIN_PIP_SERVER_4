@@ -3,6 +3,8 @@ import { Kafka } from 'kafkajs';
 import { OHLVCData, Indicators } from './services/store_data.js';
 import { PrismaClient } from '@prisma/client';
 import express from 'express';
+import cors from "cors";
+
 import fs from "fs";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -58,7 +60,7 @@ await consumer.run({
 
 // --- Express ---
 const app = express();
-
+app.use(cors());
 app.get('/data', async (req, res) => {
   const { ticker } = req.query;
   const where = ticker ? { ticker: ticker.toUpperCase() } : {};
